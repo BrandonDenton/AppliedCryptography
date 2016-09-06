@@ -3,10 +3,24 @@
 # CS483/583 Homework 1: Shift Cipher Decryption
 ##################################################################
 
+from collections import Counter    # letter distribution dict
 import os
 import socket
 from sys import platform as Platform
 #from msvcrt import getch    # Press any key to exit.
+
+def dist(t):
+    count = {}
+    for s in t:
+        if count.has_key(s):
+            count[s] += 1
+        else:
+            count[s] = 1
+
+    for key in count:
+        if count[key] > 1:
+            print key, count[key]
+    return count    # dictionary with distribution of letters
 
 text = []
 found = 0		## flag for whether or not we've guessed the keyspace ##
@@ -37,7 +51,7 @@ while(found == 0):
 	    ## shift each character of text by k, then copy to tryshift ##
 	    tryshift[i] = text[i] + k
 	## calculate distribution for letters in the shifted text ##
-	
+	letterDist = dist(tryshift)
 	## if(memes > swag)
 	##    me.append("succ")
 	for j in tryshift:
