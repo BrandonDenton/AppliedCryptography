@@ -25,16 +25,16 @@ def dist(t):
             count[s] += 1
         else:
             count[s] = 1
-    del count['']                   #this exists because we had a few extra '' characters floating around
+#    del count['']                   #this exists because we had a few extra '' characters floating around
 #    print (count)
 
     totlett = 0
 
-    for a, b in count.items():
-        totlett = totlett + b
+    for letter in ascii_lowercase:
+        totlett = totlett + count[letter]
 
-    for a, b in count.items():
-        count[a] = b/totlett
+    for letter in ascii_lowercase:
+        count[letter] = count[letter]/totlett
 
 #    print (count)
 
@@ -88,6 +88,34 @@ def shiftletter(letterdict):
     return letterdict
         
 
+
+#SOLVE
+#
+#Iterates from 0 to 26, shifting the values up by 1 space each time, then calculates the distribution and compares. If found, prints the
+#solution in a sentence format, showing how many times the letters have been shifted.
+
+def solve(afterdist, distribs, current, goal):
+
+    for i in range(0,26):
+        afterdist = shiftletter(afterdist)
+        current = calcdist(distribs,afterdist)
+
+        if (current == goal):
+            print("Solved! This cipher has been shifted by:")
+            print('{} or {}, depeinding on whether you are sliding forwards or backwards.'.format(i,26-i))
+            break
+    return
+    
+
+
+
+
+
+
+
+
+
+
 text = []
 
 ###### Read the ciphertext into a list. ##
@@ -124,14 +152,4 @@ print("Starting value:")
 print(current)
 print("\n")
 
-#####Iterates from 0 to 26, shifting the values up by 1 space each time, then calculates the distribution and compares. If found, prints the
-#solution in a sentence format, showing how many times the letters have been shifted.
-
-for i in range(0,26):
-    afterdist = shiftletter(afterdist)  
-    current = calcdist(distribs,afterdist)
-    
-    if (current == goal):
-        print("Solved! This cipher has been shifted by:")
-        print('{} or {}, depeinding on whether you are sliding forwards or backwards.'.format(i,26-i))
-        break
+solve(afterdist, distribs, current, goal)
